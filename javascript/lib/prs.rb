@@ -3,6 +3,7 @@ require 'sinatra/base'
 class PRS < Sinatra::Base
   get '/' do
     'Hello PRS!'
+    erb :index
   end
 
   # start the server if ruby file executed directly

@@ -1,0 +1,79 @@
+<!doctype>
+<html>
+  <head>
+    <title>Rock Paper Scissors Lizard Spock</title>
+    <style>
+    body {
+      font-family: 'Helvetica Neue';
+      margin: 15px 0 0 30px;
+    }
+
+    .choices img {
+      width: 15%;
+      margin-right: 2.5%;
+      cursor: pointer;
+      opacity: 0.5;
+      transition: 1s all ease;
+    }
+
+    .choices img:hover {
+      opacity: 1;
+    }
+
+    h2, h3 {
+      text-transform: capitalize;
+    }
+
+    #results {
+      list-style: none;
+    }
+
+    #results li {
+      background: #999;
+      color: #fff;
+      font-size: 24px;
+      border-radius: 8px;
+      padding: 5px;
+      width: 80%;
+      margin-bottom: 10px;
+    }
+    </style>
+  </head>
+  <body>
+    <h1>Rock Paper Scissors Lizard Spock</h1>
+    <div class='choices'>
+      <img src="images/rock.png" data-pick='rock'>
+      <img src="images/paper.png" data-pick='paper'>
+      <img src="images/scissors.png" data-pick='scissors'>
+      <img src="images/lizard.png" data-pick='lizard'>
+      <img src="images/spock.png" data-pick='spock'>
+    </div>
+    <h2 id='previous'>No Previous Winner</h2>
+    <ul id="results"> </ul>
+
+    <script src='lib/Player.js'></script>
+    <script src='lib/Game.js'></script>
+    <script src='http://code.jquery.com/jquery-2.1.1.min.js'></script>
+    <script>
+      $(document).ready(function(){
+        var alex = new Player('Alex');
+        var tony = new Player('Tony');
+        var game = new Game(alex, tony);
+
+        $('.choices img').on('click', function(){
+          var randomInt = Math.floor(Math.random()*5);
+          alex.picks($(this).data('pick'));
+          var randomChoice = ($('.choices img').eq(randomInt).data('pick'));
+          tony.picks(randomChoice);
+
+           // console.log(alex.distribution());
+           // console.log(tony.distribution());
+           // console.log(game.winner().score_update("win"));
+          $('#results').prepend("<li>" + game.winningMessage() + "</li>");
+          $('#results li:gt(4)').remove();
+          $('#previous').replaceWith("<h2>Scores Alex Wins-" +alex.scores["win"]+"</h2>");
+        })
+      })
+    </script>
+  </body>
+</html>
